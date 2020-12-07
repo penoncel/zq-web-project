@@ -1,0 +1,96 @@
+#资源文件
+spring:
+  profiles:
+    active: dev  # dev 开发 prod 正式 test 测试
+
+  #只显示 下面目录的静态资源
+  resources:
+    static-locations: classpath:/static,classpath:/public
+  ##############################################################################################################################################################################################
+  # Freemarker 模板引擎
+  freemarker:
+    #模板加载路径 按需配置
+    template-loader-path: classpath:/templates/
+    #启用模板缓存。
+    cache: false
+    #设置编码格式
+    charset: UTF-8
+    #检查模板位置是否存在
+    check-template-location: true
+    #内容类型值
+    content-type: text/html
+    #设置是否应该在与模板合并之前将所有请求属性添加到模型中
+    expose-request-attributes: false
+    #设置是否在与模板合并之前将所有HttpSession属性添加到模型中
+    expose-session-attributes: false
+    #所有视图的RequestContext属性的名称
+    request-context-attribute: request
+    #启用MVC视图解决方案
+    enabled: true
+    #文件后缀
+    suffix: .ftl
+    #数字格式化，无小数点
+#    number_format: '0.##'
+  ##############################################################################################################################################################################################
+
+  #spring 批量文件设置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 100MB
+      resolve-lazily: false
+
+  ##############################################################################################################################################################################################
+  mail:
+    host: smtp.qq.com
+    username: 945156573@qq.com
+    password: ijjxqdvpjvwfbeeg
+    default-encoding: utf-8
+    auth: true
+
+  #    host: mail.sand.com.cn
+  #    username: zhao.q_bj@sand.com.cn
+  #    password: zq123456
+  #    default-encoding: utf-8
+  #    auth: true
+
+  ##############################################################################################################################################################################################
+
+mybatis-plus:
+  # mp.baomidou.com
+  # 在使用 mybatis-plus 时，如果你是简单的增删改查
+  # Mapper 继承该接口后，无需编写 mapper.xml 映射文件，即可获得CRUD功能。
+  # 想写你就写
+  # lombok
+  mapper-locations: classpath:/mybatis-mappers/*
+  typeAliasesPackage: com.mer.pojo
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #mp2.3+ 全局表前缀 t_
+    #    table-prefix: t_
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #逻辑删除配置（下面3个配置）
+    logic-delete-value: 1
+    logic-not-delete-value: 0
+    #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+# LOGGING
+logging:
+  config: classpath:log/logback-spring.xml
+
+#pagehelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mer.project.Dao.WebIpDao">
+
+    <!-- 查询条件体 -->
+    <sql id="search_body">
+        <if test="params.ip!=null and params.ip!=''">
+            and ip like '%${params.ip}%'
+        </if>
+
+        <if test="params.type!=null and params.type!=''">
+            and type = '${params.type}'
+        </if>
+
+        <if test="params.status!=null and params.status!=''">
+            and status = '${params.status}'
+        </if>
+
+        <if test="params.note!=null and params.note!=''">
+            and note like '%${params.note}%'
+        </if>
+
+    </sql>
+
+
+    <!-- 获取用户列表信息 -->
+    <select id="getPageList" resultType="map" parameterType="com.mer.project.Pojo.WebPage">
+        select * from web_ip
+        <where>
+            <include refid="search_body"/>
+        </where>
+        order by id desc
+    </select>
+
+</mapper>

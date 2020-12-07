@@ -1,0 +1,86 @@
+package ${package.Controller};
+
+import com.mer.common.Base.Controller.BaseController;
+import com.mer.framework.Annotction.LOG;
+import com.mer.common.Constant.Constant;
+import com.mer.common.Utils.LayUIResult.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.mer.framework.Annotction.RequestLimit;
+import lombok.extern.slf4j.Slf4j;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+
+import java.util.*;
+
+/**
+* <p>
+ *     $!{table.comment} 控制器
+* </p>
+ * @author ${author}
+* @since ${date}
+*/
+@Controller
+@RequestMapping("/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${entity}#end" )
+@Slf4j
+@RequestLimit(maxCount = Constant.maxCount_RequestLimit,second = Constant.second_RequestLimit)
+public class ${table.controllerName} extends BaseController{
+
+    @Autowired
+    private ${table.serviceName}  ${table.entityPath}Service;
+
+    //@LOG(operModul = "$!{table.comment}模块",operType = "信息查看",operDesc = "查询界面")
+    @RequestMapping("/list")
+    public String list(){
+        return this.toAction();
+    }
+
+    @LOG(operModul = "$!{table.comment}模块",operType = "信息查看",operDesc = "分页查询数据")
+    @RequestMapping("/listData")
+    @ResponseBody
+    public Result listData(){
+        return  Result.success(${table.entityPath}Service.getPage(this.getPage(null)));
+    }
+
+    @LOG(operModul = "$!{table.comment}模块",operType = "信息查看",operDesc = "查看单个信息可添加或修改")
+    @RequestMapping("/add")
+    public String add(@RequestParam(value="id",required=false) Integer id) {
+        ${entity} ${table.entityPath} =null;
+        if (id!=null){
+            ${table.entityPath} = ${table.entityPath}Service.getOne(id);
+        }else{
+            ${table.entityPath} =  new ${entity}();
+        }
+        this.setAttribute("${table.entityPath}",${table.entityPath});
+        return this.toAction();
+    }
+
+    @LOG(operModul = "$!{table.comment}模块",operType = "信息操作",operDesc = "添加修改数据")
+    @PostMapping("/saveOrUpdate")
+    @ResponseBody
+    public Result saveOrUpdate(@RequestBody ${entity} ${table.entityPath}){
+        if (${table.entityPath}.getId() == null) {
+            ${table.entityPath}Service.insertOne(${table.entityPath});
+        } else {
+            ${table.entityPath}Service.updateOne(${table.entityPath});
+        }
+        return Result.success();
+    }
+
+    @LOG(operModul = "$!{table.comment}模块",operType = "信息操作",operDesc = "删除数据")
+    @PostMapping("/delete")
+    @ResponseBody
+    public Result delete(@RequestParam("id") Integer id){
+        ${table.entityPath}Service.deleteOne(id);
+        return Result.success();
+    }
+
+
+ 
+
+ }

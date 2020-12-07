@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mer.project.Dao.SysFtpDao">
+
+
+    <insert id="insert_nuomansitrad">
+        insert into nuomansitrad(mercode,car,money,traddate,tradtime)
+        values
+        <foreach collection="list" item="item"   index="index" separator=",">
+            (
+            #{item.mercode}, #{item.car}, #{item.money}, #{item.traddate}, #{item.tradtime}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

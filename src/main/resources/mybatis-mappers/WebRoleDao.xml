@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mer.project.Dao.WebRoleDao">
+
+    <!-- 设置权限 -->
+    <insert id="insert_bath_permission" >
+        insert into web_role_permission(role_id,menu_id)
+        values
+        <foreach collection="list" item="item"   index="index" separator=",">
+            (#{item.role_id} ,#{item.menu_id} )
+        </foreach>
+
+    </insert>
+
+    <!-- 查询条件体 -->
+    <sql id="search_body">
+
+        <if test="params.role!=null and params.role!=''">
+            and role like '%${params.role}%'
+        </if>
+
+        <if test="params.name!=null and params.name!=''">
+            and name like '%${params.name}%'
+        </if>
+
+    </sql>
+
+    <!-- 获取 $!{table.comment} 信息 -->
+    <select id="getPageList" resultType="map" parameterType="com.mer.project.Pojo.WebPage">
+        select * from web_role
+        <where>
+            <include refid="search_body"/>
+        </where>
+        order by id desc
+    </select>
+
+</mapper>

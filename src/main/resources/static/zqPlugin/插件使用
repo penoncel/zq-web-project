@@ -1,0 +1,44 @@
+
+
+//config的设置是全局的
+layui.config({
+        //base 告知 layui 你插件的目录
+        base: 'static/zqPlugin/'
+    }).extend({
+        //设定模块别名 这里只需要到对应的js文件名即可 ，layui 会自动识别   'dtree/dist/dtree' 这个 目录的 dtree.js文件
+
+        dtree: 'dtree/dist/dtree'
+        //多个模板 逗号隔开
+    })
+    //使用拓展模块   'dtree' 放入进去即可
+    .use(['dtree','layer', 'form','table'], function(){
+           var $=layui.jquery,
+            table = layui.table,
+            form = layui.form,
+            table = layui.table,
+            dtree = layui.dtree;
+
+
+
+        });
+
+
+当按钮多的时候无法正常使用 粘贴以下代码即可
+
+//缓存当前操作的是哪个表格的哪个tr的哪个td
+$(document).off('mousedown','.layui-table-grid-down').on('mousedown','.layui-table-grid-down',function (event) {
+    //直接记录td的jquery对象
+    table._tableTrCurrr = $(this).closest('td');
+});
+
+//给弹出的详情里面的按钮添加监听级联的触发原始table的按钮的点击事件
+$(document).off('click','.layui-table-tips-main [lay-event]').on('click','.layui-table-tips-main [lay-event]',function (event) {
+    var elem = $(this);
+    var tableTrCurrr =  table._tableTrCurrr;
+    if(!tableTrCurrr){
+        return;
+    }
+    var layerIndex = elem.closest('.layui-table-tips').attr('times');
+    layer.close(layerIndex);
+    table._tableTrCurrr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click();
+});

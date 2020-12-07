@@ -1,0 +1,12 @@
+
+
+
+
+主题地址：https://layui.newphper.com/themes.html
+
+
+下载CSS后 页面引用对应CSS即可
+
+
+<link rel="stylesheet" href="/static/zqPlugin/myzhuti/layui-theme-custom.css" media="all">
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mer.project.Dao.WebOperationLogDao">
+
+    <resultMap id="BaseResultMap" type="com.mer.project.Pojo.WebOperationLog" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="device" property="device" jdbcType="VARCHAR" />
+        <result column="device_sys" property="deviceSys" jdbcType="VARCHAR" />
+        <result column="device_v" property="deviceV" jdbcType="VARCHAR" />
+        <result column="oper_module" property="operModule" jdbcType="VARCHAR" />
+        <result column="oper_type" property="operType" jdbcType="VARCHAR" />
+        <result column="oper_msg" property="operMsg" jdbcType="VARCHAR" />
+        <result column="req_uri" property="reqUri" jdbcType="VARCHAR" />
+        <result column="req_ip" property="reqIp" jdbcType="VARCHAR" />
+        <result column="oper_method" property="operMethod" jdbcType="VARCHAR" />
+        <result column="oper_times" property="operTimes" jdbcType="VARCHAR" />
+        <result column="req_parameter" property="reqParameter" jdbcType="VARCHAR" />
+        <result column="resp_parameter" property="respParameter" jdbcType="VARCHAR" />
+        <result column="resp_times" property="respTimes" jdbcType="VARCHAR" />
+        <result column="take_up_time" property="takeUpTime" jdbcType="VARCHAR" />
+        <result column="log_type" property="logType" jdbcType="INTEGER" />
+        <result column="log_status" property="logStatus" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="getOne" resultMap="BaseResultMap" parameterType="int">
+        select * from web_operation_log where id =#{id}
+    </select>
+    <!-- 查询条件体 -->
+    <sql id="search_body">
+        <if test="params.user_name!=null and params.user_name!=''">
+            and user_name like '%${params.user_name}%'
+        </if>
+
+        <if test="params.oper_module!=null and params.oper_module!=''">
+            and oper_module like '%${params.oper_module}%'
+        </if>
+
+        <if test="params.oper_type!=null and params.oper_type!=''">
+            and oper_type like '%${params.oper_type}%'
+        </if>
+
+        <if test="params.oper_msg!=null and params.oper_msg!=''">
+            and oper_msg like '%${params.oper_msg}%'
+        </if>
+
+        <if test="params.oper_method!=null and params.oper_method!=''">
+            and oper_method like '%${params.oper_method}%'
+        </if>
+
+
+        <if test="params.log_type!=null and params.log_type!=''">
+            and log_type = '${params.log_type}'
+        </if>
+
+        <if test="params.log_status!=null and params.log_status!=''">
+            and log_status = '${params.log_status}'
+        </if>
+
+
+
+
+
+    </sql>
+
+
+    <!-- 获取用户列表信息 -->
+    <select id="getPageList" resultType="map" parameterType="com.mer.project.Pojo.WebPage">
+        SELECT
+        id, `user_name`,`device`,`device_sys`,`device_v`,`oper_module`,`oper_type`,`oper_msg`,`req_uri`,`req_ip`,`oper_method`,`oper_times`,`resp_times`,`take_up_time`,`log_type`,`log_status` FROM web_operation_log
+        <where>
+            <include refid="search_body"/>
+        </where>
+        order by id desc
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mer.project.Dao.WebMenuDao">
+
+    <sql id="amountColumn">
+        id,menu_name,parents,parentid,css,href,lever
+    </sql>
+
+    <!-- 查询条件体 -->
+    <sql id="search_body">
+
+        <if test="params.system_from!=null and params.system_from!=''">
+            and system_from = '${params.system_from}'
+        </if>
+
+        <if test="params.agent!=null and params.agent!=''">
+            and agent = '${params.agent}'
+        </if>
+
+    </sql>
+
+    <select id="getCount" resultType="int" parameterType="com.mer.project.Pojo.WebPage">
+        select count(*) from web_menu
+        <where>
+            <include refid="search_body"/>
+        </where>
+    </select>
+
+    <select id="getPage" resultType="map" parameterType="com.mer.project.Pojo.WebPage">
+         select
+        <include refid="amountColumn"/>
+         from web_menu
+<!--        <where>-->
+<!--            <include refid="search_body"/>-->
+<!--        </where>-->
+         order by id asc
+         limit #{webPage},#{limit}
+    </select>
+
+
+</mapper>
