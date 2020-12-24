@@ -36,6 +36,7 @@ public class RedisCacheManager implements CacheManager {
      * @return
      * @throws CacheException
      */
+    @Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
         logger.debug("redis 登入用户 =" + keyPrefix);
         Cache cache = (Cache)this.caches.get(keyPrefix);

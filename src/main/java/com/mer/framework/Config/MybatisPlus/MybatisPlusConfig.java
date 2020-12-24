@@ -1,6 +1,8 @@
 package com.mer.framework.Config.MybatisPlus;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.mer.common.Interceptor.MybatisInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +18,14 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan("com.mer.project.Dao")
 public class MybatisPlusConfig {
-//    /*
-//     * 分页插件，自动识别数据库类型
-//     */
-//    @Bean
-//    public PaginationInterceptor paginationInterceptor() {
-//        return new PaginationInterceptor();
-//    }
+
+    /**
+     * mybatis 自定义拦截器
+     */
+    @Bean
+    public Interceptor getInterceptor() {
+        return new MybatisInterceptor();
+    }
 
     /*
      * 数据源

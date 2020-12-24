@@ -70,6 +70,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         }
     }
 
+    @Override
     public Collection<Session> getActiveSessions() {
         HashSet sessions = new HashSet();
 
